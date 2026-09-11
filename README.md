@@ -1,83 +1,79 @@
-# ⚡ VoltLab Electronics — Production E-Commerce Platform
+# ⚡ Servicing World (সার্ভিসিং ওয়ার্ল্ড) — Electronics E-Commerce Platform
 
-> A modern, production-ready, full-stack electronics e-commerce platform inspired by YouTube hardware teardowns and circuit benchmarking. Built with **Next.js 14+ (App Router)**, **TypeScript**, **Tailwind CSS**, and **Supabase PostgreSQL**.
+> A modern, production-ready, full-stack electronics e-commerce platform inspired by the YouTube channel [Servicing World / Bishowjit Datta](https://www.youtube.com/channel/UCo60TsGBAlADhFamHpr4sJQ). Built with **Next.js 16 (App Router)**, **TypeScript**, **Tailwind CSS v4**, and **Supabase PostgreSQL**.
 
 ---
 
 ## 🌟 Key Highlights
 
-- **Benchmarked Electronics Brand**: Custom branding with YouTube video integration, oscilloscope teardowns, and live performance metrics.
+- **Real YouTube Channel Electronics Catalog**:
+  - **লকার মেশিন ও কন্ট্রোলার**: ৩২ খেলা ডিজিটাল লকার মেশিন (32-Channel Chaser), ১৬ খেলা ডিজিটাল লকার ফ্লাশার মেশিন (16-Channel Chaser).
+  - **মরিচ বাতি ও লাইটিং**: ১০০ এলইডি ওয়াটারপ্রুফ মাল্টি কালার মরিচ বাতি (40ft), ২০০ এলইডি হেভি কপার গোল্ডেন ওয়ার্ম হোয়াইট বাতি (80ft).
+  - **টিভি রিপেয়ারিং পার্টস**: ইউনিভার্সাল এলইডি টিভি কম্বো মাদারবোর্ড কিট (T.V56/53 + রিমোট), ডিজিটাল এলইডি ব্যাকলাইট টেস্টার (0-300V), কালার সিআরটি টিভি ইউনিভার্সাল কিট (14-21").
+  - **সার্ভিসিং ও সোল্ডারিং টুলস**: ডিটি-৯২০৫এ ডিজিটাল মাল্টিমিটার, ৬০W অ্যাডজাস্টেবল টেম্পারেচার তাতাল কিট, হেভি ডিউটি অ্যালুমিনিয়াম ডিসোল্ডারিং সাকশন পাম্প, অরিজিনাল আসাহি রাং তার (100g) ও সার্ভিসিং রজন।
+  - **ব্লেন্ডার মোটর ও পার্টস**: ৭৫০ ওয়াট ১০০% পিওর কপার ইউনিভার্সাল ব্লেন্ডার মোটর, ইউনিভার্সাল রাবার কাপলার ও জার ব্লেড কম্বো।
+  - **অডিও অ্যামপ্লিফায়ার ও মডিউল**: ২.১ চ্যানেল ব্লুটুথ ৫.০ সাবউফার অ্যামপ্লিফায়ার বোর্ড (TPA3116D2 ২০০W), ১২V ব্লুটুথ ইউএসবি এফএম অডিও ডিকোডার মডিউল।
+  - **পাওয়ার অ্যাডাপ্টার ও ব্যাটারি**: ১২V ৫A এসএমপিএস পাওয়ার অ্যাডাপ্টার, ৩এস ১২.৬V ৪০A লিথিয়াম আয়ন ব্যাটারি বিএমএস প্রোটেকশন বোর্ড।
+  - **সিসি ক্যামেরা ও অ্যাক্সেসরিজ**: ২ মেগাপিক্সেল নাইট ভিশন এইচডি ডোম সিসি ক্যামেরা ও কানেক্টর কিট।
+
 - **Full-Featured Storefront**:
-  - Sticky navigation with instant search autocomplete (by title, SKU, tags).
-  - Multi-attribute shop filter (Category, Price slider, In-stock, Rating, Brand).
-  - Rich Product Details with image gallery zoom, tech specs table, embedded YouTube teardown player, customer reviews, and "Frequently Bought Together" bundles.
-  - Cart drawer with live free-shipping progress tracker and promo coupon applicator (`WELCOME10`, `VOLT20`).
-  - Streamlined Checkout with address validation, delivery options, and a modular payment architecture (Credit Card / Online, Cash on Delivery, Bank Transfer).
-  - Real-time Order Tracking with a visual fulfillment timeline (`pending` → `confirmed` → `processing` → `shipped` → `delivered`).
-- **Customer Account Portal (`/account`)**:
-  - Order history with status badges and printable invoices.
-  - Hardware Wishlist with 1-click "Move to Cart".
+  - Bangladeshi localized currency formatting in Taka (`৳`).
+  - Sticky navigation with instant search autocomplete (Bangla & English).
+  - Multi-attribute shop filter (Category, Price slider, In-stock, Rating).
+  - Rich Product Details with image gallery, tech specifications table, embedded YouTube teardown player, customer reviews, and warranties.
+  - Cart drawer with live free-shipping progress tracker (Free shipping on orders over ৳২,০০০).
+  - Streamlined Checkout supporting Cash on Delivery (ক্যাশ অন ডেলিভারি), bKash, Nagad, Rocket, and Bank Transfer.
+  - Real-time Order Tracking (`/track-order`).
+
 - **Zero-Code Admin Dashboard (`/admin`)**:
   - Executive KPI cards (Total sales, today's sales, low stock alerts, revenue graphs).
-  - Full Product CRUD (Add, edit, delete, duplicate, toggle featured/bestseller, upload images, specs, YouTube video IDs).
-  - Order Management (Update lifecycle status, payment status, tracking numbers, internal technician notes).
-  - Inventory Control (Real-time stock adjustment, minimum stock warnings, out-of-stock highlights).
-  - Coupon Manager (Percentage and fixed discount promos).
-  - Banner Manager (Homepage hero carousel control).
-  - Review Moderation (Approve, hide, or delete customer reviews).
-  - Store Settings (Currency, free shipping threshold, YouTube channel link, maintenance mode).
-- **Production-Ready Relational Supabase Schema**:
-  - 20+ relational PostgreSQL tables with UUIDs, indexes, and constraints.
-  - Complete Row Level Security (RLS) policies protecting customer and administrative data.
-  - Realistic seed migrations containing 20+ detailed demo electronics products.
-- **Dual-Mode Resiliency**:
-  - Out-of-the-box local storage & state adapter that allows complete end-to-end testing immediately without entering credentials.
-  - Automatically switches to live Supabase PostgreSQL when `.env.local` is provided!
-- **SEO & Performance**:
-  - Dynamic `generateMetadata` on all products and categories.
-  - Valid `schema.org/Product` JSON-LD structured data.
-  - Automated `sitemap.xml` and `robots.txt`.
-  - Dark / Light mode preference persistence.
-  - Netlify OpenNext ready (`netlify.toml`).
+  - Full Product CRUD (Add, edit, delete, upload images via ImgBB API, specs, YouTube video links).
+  - Order Management (Update status, payment status, tracking numbers, customer notes).
+  - Inventory Control (Real-time stock adjustment, minimum stock warnings).
+  - Category, Coupon, Banner, Review, and Content Management.
+  - Site Settings (Store name, hotline, address, announcement banner toggle).
+
+- **Database & Architecture**:
+  - Persistent Dual-Mode Adapter (`lib/store/db-adapter.ts`).
+  - Seamlessly connects to Supabase PostgreSQL or falls back to robust local storage.
+  - ImgBB API integration for instant, free image hosting.
 
 ---
 
-## 🚀 Quick Start Guide
+## 🛠️ Getting Started Locally
 
-### 1. Clone & Install Dependencies
+### 1. Prerequisites
+- Node.js 18+ or 20+
+- npm, pnpm, or yarn
+
+### 2. Installation
 ```bash
-git clone https://github.com/yourusername/voltlab-electronics.git
-cd voltlab-electronics
+git clone https://github.com/ovijit440-boop/servicing-world.git
+cd servicing-world
 npm install
 ```
 
-### 2. Environment Configuration
-Copy `.env.example` to `.env.local`:
-```bash
-cp .env.example .env.local
-```
-
-Fill in your Supabase project credentials (available in Supabase Console > Project Settings > API):
+### 3. Environment Variables
+Create a `.env.local` file based on `.env.example`:
 ```env
-NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
-```
-*(Note: If you leave these blank during initial testing, the application automatically runs in persistent local sandbox mode).*
 
-### 3. Run Supabase Database Migrations
-Go to your Supabase SQL Editor and run the SQL migration files in sequence:
-1. `supabase/migrations/001_initial_schema.sql` (Creates all 20+ tables & relationships)
-2. `supabase/migrations/002_rls_policies.sql` (Applies Row Level Security)
-3. `supabase/migrations/003_seed_data.sql` (Seeds initial categories, banners, coupons, and site settings)
+# ImgBB API Key
+NEXT_PUBLIC_IMGBB_API_KEY=7a72f02b65e930275334abe25b3c27d0
+IMGBB_API_KEY=7a72f02b65e930275334abe25b3c27d0
+
+# Supabase Configuration
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+```
 
 ### 4. Run Development Server
 ```bash
 npm run dev
 ```
-Open [http://localhost:3000](http://localhost:3000) to view the storefront, or [http://localhost:3000/admin](http://localhost:3000/admin) to access the Admin Panel.
+Open [http://localhost:3000](http://localhost:3000) to view the application.
 
-### 5. Build for Production
+### 5. Production Build
 ```bash
 npm run build
 npm run start
@@ -85,24 +81,38 @@ npm run start
 
 ---
 
-## ☁️ Deploy to Netlify
+## 📁 Project Structure
 
-1. Push your repository to GitHub.
-2. Log in to [Netlify](https://app.netlify.com) and click **"Add new site"** → **"Import an existing project"**.
-3. Select your GitHub repository.
-4. Set the build environment variables in Netlify:
-   - `NEXT_PUBLIC_SUPABASE_URL`
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-   - `NEXT_PUBLIC_SITE_URL`
-5. Click **Deploy Site**. The included `netlify.toml` will configure the `@netlify/plugin-nextjs` OpenNext adapter automatically!
+```text
+├── app/                    # Next.js App Router (Storefront & Admin)
+│   ├── admin/             # Full Admin Dashboard pages
+│   ├── api/upload/        # ImgBB API endpoint for image uploads
+│   ├── product/[slug]/    # Dynamic product detail page
+│   ├── shop/              # Product catalog & filter page
+│   ├── checkout/          # Checkout with COD & bKash
+│   └── page.tsx           # Homepage with Hero, Banner & Products
+├── components/            # Reusable UI components
+│   ├── storefront/        # Header, Footer, Hero, ProductCards, CartDrawer
+│   ├── providers/         # Cart, Wishlist, Auth & Theme providers
+│   └── ui/                # ImageUploader, buttons, modals
+├── lib/                   # Utility functions & Database adapters
+│   ├── store/             # db-adapter.ts & demo-data.ts
+│   ├── supabase/          # client.ts
+│   └── utils.ts           # BDT currency formatter & helper functions
+├── public/                # Static assets (logo.png, favicon.png)
+└── supabase/              # SQL schema & migrations (complete_database.sql)
+```
 
 ---
 
-## 🛡️ Default Demo Sandbox Accounts
-- **Admin**: Sign in at `/login` or click **"Admin Demo"** (direct access to `/admin`).
-- **Customer**: Click **"Customer Demo"** at `/login` to test placing orders, managing wishlists, and viewing receipts.
+## 📍 Store Information
+- **Shop**: Servicing World (সার্ভিসিং ওয়ার্ল্ড)
+- **Proprietor**: Bishowjit Datta (বিশ্বরজিৎ দত্ত)
+- **Address**: Harta Bazar, Girls School Road, Wazirpur, Barishal, Bangladesh
+- **Hotline / WhatsApp / Imo**: `+880 1785-958427`
+- **YouTube Channel**: [Servicing World](https://www.youtube.com/channel/UCo60TsGBAlADhFamHpr4sJQ)
 
 ---
 
 ## 📄 License
-MIT License. Created for makers, electrical engineers, and hardware enthusiasts.
+MIT License. Created for Servicing World.
