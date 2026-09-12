@@ -6,23 +6,38 @@ import { useRouter } from 'next/navigation';
 import { Header } from '@/components/storefront/Header';
 import { Footer } from '@/components/storefront/Footer';
 import { useAuth } from '@/components/providers/AuthProvider';
-import { Zap, UserPlus } from 'lucide-react';
+import { Zap, UserPlus, AlertCircle, CheckCircle2 } from 'lucide-react';
 
 export default function RegisterPage() {
   const router = useRouter();
-  const { login } = useAuth();
+  const { signUpWithSupabase } = useAuth();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email) return;
+    setErrorMessage(null);
+    setSuccessMessage(null);
+    if (!email || !password) return;
+
     setIsLoading(true);
-    await login(email, 'customer');
+    const result = await signUpWithSupabase(email, password, name, false);
     setIsLoading(false);
-    router.push('/account');
+
+    if (!result.success) {
+      setErrorMessage(result.error || 'অ্যাকাউন্ট তৈরি করা সম্ভব হয়নি।');
+      return;
+    }
+
+    if (result.needEmailVerification) {
+      setSuccessMessage('আপনার অ্যাকাউন্ট তৈরি হয়েছে! আপনার ইমেইল চেক করে ভেরিফাই করুন।');
+    } else {
+      router.push('/account');
+    }
   };
 
   return (
@@ -42,6 +57,20 @@ export default function RegisterPage() {
               Join Servicing World to track orders, save hardware wishlists, and get exclusive lab discounts
             </p>
           </div>
+
+          {errorMessage && (
+            <div className="p-3.5 rounded-xl bg-red-50 dark:bg-red-950/50 border border-red-200 dark:border-red-900/60 text-red-600 dark:text-red-300 text-xs flex items-center gap-2">
+              <AlertCircle className="w-4 h-4 shrink-0" />
+              <span>{errorMessage}</span>
+            </div>
+          )}
+
+          {successMessage && (
+            <div className="p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-900/60 text-emerald-700 dark:text-emerald-300 text-xs flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 shrink-0" />
+              <span>{successMessage}</span>
+            </div>
+          )}
 
           <form onSubmit={handleSubmit} className="space-y-4 text-xs">
             <div>

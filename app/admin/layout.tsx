@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import NextImage from 'next/image';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/components/providers/AuthProvider';
 import {
   LayoutDashboard,
@@ -25,6 +25,7 @@ import {
   FolderTree,
   Users,
   FileText,
+  AlertTriangle,
 } from 'lucide-react';
 
 const NAV_ITEMS = [
@@ -43,8 +44,105 @@ const NAV_ITEMS = [
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const { user, isAdmin, logout } = useAuth();
+  const router = useRouter();
+  const { user, isAdmin, isLoading, logout } = useAuth();
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+
+  // If on login page, render children directly without admin layout & guard
+  if (pathname === '/admin/login') {
+    return <>{children}</>;
+  }
+
+  // Redirect to login if user is not logged in
+  useEffect(() => {
+    if (!isLoading && !user && pathname !== '/admin/login') {
+      router.replace('/admin/login');
+    }
+  }, [isLoading, user, pathname, router]);
+
+  // Loading state
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center p-4">
+        <div className="w-10 h-10 border-3 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+        <p className="text-xs font-bold text-slate-400 mt-4 tracking-wider uppercase">
+          Supabase Admin পারমিশন চেক করা হচ্ছে...
+        </p>
+      </div>
+    );
+  }
+
+  // Not logged in state (while redirecting)
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center p-4 text-center space-y-4">
+        <div className="w-12 h-12 rounded-2xl bg-blue-500/10 text-blue-400 border border-blue-500/20 flex items-center justify-center mx-auto">
+          <Shield className="w-6 h-6 animate-pulse" />
+        </div>
+        <div>
+          <h2 className="text-lg font-black text-white">লগইন প্রয়োজন</h2>
+          <p className="text-xs text-slate-400 max-w-sm mt-1">
+            এডমিন প্যানেলে প্রবেশ করার জন্য Supabase Admin অ্যাকাউন্টে লগইন করতে হবে।
+          </p>
+        </div>
+        <Link
+          href="/admin/login"
+          className="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold shadow-lg shadow-blue-600/20 transition-all"
+        >
+          লগইন পেজে যান →
+        </Link>
+      </div>
+    );
+  }
+
+  // Logged in but NOT Admin
+  if (!isAdmin) {
+    return (
+      <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center p-4">
+        <div className="max-w-md w-full bg-slate-900 border border-red-900/60 rounded-3xl p-6 sm:p-8 text-center space-y-5 shadow-2xl">
+          <div className="w-16 h-16 rounded-2xl bg-red-500/10 text-red-400 border border-red-500/20 flex items-center justify-center mx-auto">
+            <AlertTriangle className="w-8 h-8 text-red-500" />
+          </div>
+          <div>
+            <span className="text-[10px] font-bold uppercase tracking-widest text-red-400 bg-red-500/10 px-2.5 py-1 rounded-full border border-red-500/20">
+              Access Denied
+            </span>
+            <h2 className="text-xl font-black text-white mt-2">অ্যাক্সেস অনুমোদিত নয়</h2>
+            <p className="text-xs text-slate-400 mt-1.5 leading-relaxed">
+              আপনি বর্তমানে <span className="font-mono text-amber-300 font-bold">{user.email}</span> হিসেবে লগইন আছেন। তবে এই একাউন্টের Supabase-এ <span className="text-white font-bold">Admin অনুমতি নেই</span>।
+            </p>
+          </div>
+
+          <div className="p-3.5 bg-slate-950 rounded-2xl border border-slate-800 text-[11px] text-slate-400 text-left space-y-2">
+            <p className="font-bold text-white flex items-center gap-1.5">
+              <Shield className="w-3.5 h-3.5 text-blue-400" /> কীভাবে একাউন্টটি Admin বানাবেন?
+            </p>
+            <p>
+              Supabase ড্যাশবোর্ডে গিয়ে <span className="text-slate-200">Authentication &gt; Users</span> থেকে এই ইমেইলের User Metadata-তে যোগ করুন:
+            </p>
+            <code className="block p-2 bg-slate-900 text-emerald-400 rounded-lg text-[10px] font-mono">
+              &#123;&quot;role&quot;: &quot;admin&quot;&#125;
+            </code>
+          </div>
+
+          <div className="grid grid-cols-2 gap-2 pt-1">
+            <button
+              onClick={() => logout()}
+              className="py-2.5 px-4 bg-red-600/20 hover:bg-red-600/30 text-red-300 border border-red-600/30 rounded-xl text-xs font-bold transition-colors"
+            >
+              লগআউট করুন
+            </button>
+            <Link
+              href="/"
+              className="py-2.5 px-4 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-bold transition-colors flex items-center justify-center"
+            >
+              স্টোরফ্রন্টে যান ↗
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col lg:flex-row">
